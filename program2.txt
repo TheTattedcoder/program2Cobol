@@ -1,0 +1,210 @@
+1PP 5655-S71 IBM Enterprise COBOL for z/OS  4.2.0                         Date 04/01/2015  Time 20:16:53   Page     1                
+0Invocation parameters:                                                                                                              
+  NOX                                                                                                                                
+0Options in effect:                                                                                                                  
+  NOADATA                                                                                                                            
+    ADV                                                                                                                              
+    QUOTE                                                                                                                            
+    ARITH(COMPAT)                                                                                                                    
+  NOAWO                                                                                                                              
+  NOBLOCK0                                                                                                                           
+    BUFSIZE(4096)                                                                                                                    
+  NOCICS                                                                                                                             
+    CODEPAGE(1140)                                                                                                                   
+  NOCOMPILE(S)                                                                                                                       
+  NOCURRENCY                                                                                                                         
+    DATA(31)                                                                                                                         
+  NODATEPROC                                                                                                                         
+    DBCS                                                                                                                             
+  NODECK                                                                                                                             
+  NODIAGTRUNC                                                                                                                        
+  NODLL                                                                                                                              
+  NODUMP                                                                                                                             
+  NODYNAM                                                                                                                            
+  NOEXIT                                                                                                                             
+  NOEXPORTALL                                                                                                                        
+  NOFASTSRT                                                                                                                          
+    FLAG(I,I)                                                                                                                        
+  NOFLAGSTD                                                                                                                          
+    INTDATE(ANSI)                                                                                                                    
+    LANGUAGE(EN)                                                                                                                     
+  NOLIB                                                                                                                              
+    LINECOUNT(60)                                                                                                                    
+  NOLIST                                                                                                                             
+  NOMAP                                                                                                                              
+  NOMDECK                                                                                                                            
+  NONAME                                                                                                                             
+    NSYMBOL(NATIONAL)                                                                                                                
+  NONUMBER                                                                                                                           
+    NUMPROC(NOPFD)                                                                                                                   
+    OBJECT                                                                                                                           
+  NOOFFSET                                                                                                                           
+  NOOPTIMIZE                                                                                                                         
+    OUTDD(SYSOUT)                                                                                                                    
+    PGMNAME(COMPAT)                                                                                                                  
+    RENT                                                                                                                             
+    RMODE(AUTO)                                                                                                                      
+    SEQUENCE                                                                                                                         
+    SIZE(MAX)                                                                                                                        
+    SOURCE                                                                                                                           
+    SPACE(1)                                                                                                                         
+  NOSQL                                                                                                                              
+    SQLCCSID                                                                                                                         
+  NOSSRANGE                                                                                                                          
+  NOTERM                                                                                                                             
+  NOTEST                                                                                                                             
+  NOTHREAD                                                                                                                           
+    TRUNC(STD)                                                                                                                       
+  NOVBREF                                                                                                                            
+1PP 5655-S71 IBM Enterprise COBOL for z/OS  4.2.0                         Date 04/01/2015  Time 20:16:53   Page     2                
+0 NOWORD                                                                                                                             
+    XMLPARSE(XMLSS)                                                                                                                  
+  NOXREF                                                                                                                             
+    YEARWINDOW(1900)                                                                                                                 
+    ZWB                                                                                                                              
+1PP 5655-S71 IBM Enterprise COBOL for z/OS  4.2.0               WALLYMRT  Date 04/01/2015  Time 20:16:53   Page     3                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference           
+0  000001                IDENTIFICATION DIVISION.                                         00000500                                   
+   000002                PROGRAM-ID. WALLYMRT.                                                                                       
+   000003               *WRITTEN BY DOMONICK MACK                                                                                    
+   000004               *THIS IS AN REMAKE OF PROGRAM1                                                                               
+   000005               *WALMART IS HAVING A 30% OFF SALE ON ALL ITEMS                                                               
+   000006               *SO THIS PROGRAM WILL CALCULATE THE SALE PERCENTAGE                                                          
+   000007               *ALONG WITH THE 5% TAX ON THE NEW PRICE                                                                      
+   000008                                                                                                                            
+   000009                ENVIRONMENT DIVISION.                                                                                       
+   000010                INPUT-OUTPUT SECTION.                                                                                       
+   000011                FILE-CONTROL.                                                                                               
+   000012                    SELECT INV-FILE                                                                                         
+   000013                         ASSIGN TO FILEIN.                                       00000600                                   
+   000014                    SELECT WALLY-RPT                                                                                        
+   000015                         ASSIGN TO FILEOUT.                                                                                 
+   000016                DATA DIVISION.                                                                                              
+   000017                FILE SECTION.                                                                                               
+   000018                FD INV-FILE.                                                                                                
+                                                                                                                                     
+ ==000018==> IGYGR1216-I A "RECORDING MODE" of "F" was assumed for file "INV-FILE".                                                  
+                                                                                                                                     
+   000019                01 INV-RECORD     PIC X(40).                                                                                
+   000020                FD WALLY-RPT.                                                                                               
+                                                                                                                                     
+ ==000020==> IGYGR1216-I A "RECORDING MODE" of "F" was assumed for file "WALLY-RPT".                                                 
+                                                                                                                                     
+   000021                01 INV-OFF        PIC X(200).                                                                               
+   000022                WORKING-STORAGE SECTION.                                                                                    
+   000023                01 WS-SWITCHES.                                                                                             
+   000024                    05 WS-EOF     PIC X(3).                                                                                 
+   000025                01 ARITHMETIC-WORK-AREA.                                                                                    
+   000026                    05 AR-SALEDISCNT     PIC 9(5)V99.                                                                       
+   000027                    05 AR-SALETAX        PIC 9(5)V99.                                                                       
+   000028                01 IR-INV-RECORD.                                                                                           
+   000029                    05 IR-NAME           PIC X(15).                                                                         
+   000030                    05 IR-CODE           PIC 99999.                                                                         
+   000031                    05 IR-PRICE          PIC 999V99.                                                                        
+   000032                    05 IR-DEPT           PIC X(15).                                                                         
+   000033                01 IO-INV-OFF.                                                                                              
+   000034                    05                   PIC X(7) VALUE SPACES.                                                             
+   000035                    05 IO-NAME           PIC X(15).                                                                         
+   000036                    05                   PIC X(7) VALUE SPACES.                                                             
+   000037                    05 IO-CODE           PIC 99999.                                                                         
+   000038                    05                   PIC X(7) VALUE SPACES.                                                             
+   000039                    05 IO-PRICE          PIC $ZZ9.99.                                                                       
+   000040                    05                   PIC X(7) VALUE SPACES.                                                             
+   000041                    05 IO-DEPT           PIC X(15).                                                                         
+   000042                01 IO-REPORT-HEADING-LINE.                                                                                  
+   000043                    05 PIC X(25) VALUE SPACES.                                                                              
+   000044                    05 PIC X(21) VALUE "WALLY RECORD".                                                                      
+   000045                01 IO-COLUMN-HEADING-LINE.                                                                                  
+   000046                    05 PIC X(29) VALUE "       NAME".                                                                       
+   000047                    05 PIC X(13) VALUE "CODE".                                                                              
+   000048                    05 PIC X(14) VALUE "PRICE".                                                                             
+   000049                    05 PIC X(4) VALUE "DEPT".                                                                               
+   000050                PROCEDURE DIVISION.                                                                                         
+   000051                000-PRINT-WALLY-LIST.                                                                                       
+1PP 5655-S71 IBM Enterprise COBOL for z/OS  4.2.0               WALLYMRT  Date 04/01/2015  Time 20:16:53   Page     4                
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference           
+0  000052                    OPEN INPUT INV-FILE                                                                                     
+   000053                        OUTPUT WALLY-RPT                                                                                    
+   000054                    PERFORM 100-INITIALIZE-VARIABLE-FIELDS                                                                  
+   000055                    PERFORM 700-PRINT-HEADINGS                                                                              
+   000056                    PERFORM UNTIL WS-EOF IS EQUAL TO "YES"                                                                  
+   000057      1               READ INV-FILE                                                                                         
+   000058      1                        INTO IR-INV-RECORD                                                                           
+   000059      1                 AT END                                                                                              
+   000060      2                   MOVE "YES" TO WS-EOF                                                                              
+   000061      1                 NOT AT END                                                                                          
+   000062      2                   PERFORM 200-PROCESS                                                                               
+   000063      1               END-READ                                                                                              
+   000064                    END-PERFORM                                                                                             
+   000065                    CLOSE INV-FILE                                                                                          
+   000066                          WALLY-RPT                                                                                         
+   000067                    STOP RUN                                                                                                
+   000068                    .                                                                                                       
+   000069                100-INITIALIZE-VARIABLE-FIELDS.                                                                             
+   000070                    MOVE "NO" TO WS-EOF                                                                                     
+   000071                    .                                                                                                       
+   000072                200-PROCESS.                                                                                                
+   000073                    MOVE IR-NAME TO IO-NAME                                                                                 
+   000074                    MOVE IR-CODE TO IO-CODE                                                                                 
+   000075                    MOVE IR-DEPT  TO IO-DEPT                                                                                
+   000076                                                                                                                            
+   000077                    MULTIPLY IR-PRICE BY 0.30 GIVING                                                                        
+   000078                    AR-SALEDISCNT                                                                                           
+   000079                    SUBTRACT AR-SALEDISCNT FROM IR-PRICE                                                                    
+   000080                    MULTIPLY IR-PRICE BY 0.07 GIVING AR-SALETAX                                                             
+   000081                    ADD IR-PRICE TO AR-SALETAX GIVING                                                                       
+   000082                    IO-PRICE                                                                                                
+   000083                    MOVE IO-INV-OFF TO INV-OFF                                                                              
+   000084                    WRITE INV-OFF                                                                                           
+   000085                    .                                                                                                       
+   000086                700-PRINT-HEADINGS.                                                                                         
+   000087                    MOVE IO-REPORT-HEADING-LINE TO INV-OFF                                                                  
+   000088                    WRITE INV-OFF                                                                                           
+   000089                    MOVE IO-COLUMN-HEADING-LINE TO INV-OFF                                                                  
+   000090                    WRITE INV-OFF                                                                                           
+   000091                        AFTER ADVANCING 3                                                                                   
+   000092                    MOVE SPACES TO INV-OFF                                                                                  
+   000093                    WRITE INV-OFF                                                                                           
+   000094                    .                                                                                                       
+1PP 5655-S71 IBM Enterprise COBOL for z/OS  4.2.0               WALLYMRT  Date 04/01/2015  Time 20:16:53   Page     5                
+0LineID  Message code  Message text                                                                                                  
+                                                                                                                                     
+     18  IGYGR1216-I   A "RECORDING MODE" of "F" was assumed for file "INV-FILE".                                                    
+                                                                                                                                     
+     20  IGYGR1216-I   A "RECORDING MODE" of "F" was assumed for file "WALLY-RPT".                                                   
+-Messages    Total    Informational    Warning    Error    Severe    Terminating                                                     
+0Printed:       2           2                                                                                                        
+-* Statistics for COBOL program WALLYMRT:                                                                                            
+ *    Source records = 94                                                                                                            
+ *    Data Division statements = 19                                                                                                  
+ *    Procedure Division statements = 25                                                                                             
+0End of compilation 1,  program WALLYMRT,  highest severity 0.                                                                       
+0Return code 0                                                                                                                       
+                          WALLY RECORD                                                                                                                                                                   
+-       NAME                  CODE         PRICE         DEPT                                                                                                                                            
+                                                                                                                                                                                                         
+        HEADPHONES            45875       $ 56.17       AUDIO                                                                                                                                            
+        GAME                  45996       $ 44.94       GAMING                                                                                                                                           
+        TV                    45838       $164.78       ENTERTAINMENT                                                                                                                                    
+        CD                    64552       $  3.74       MUSIC                                                                                                                                            
+        PRINTER               76757       $ 67.41       OFFICE                                                                                                                                           
+        LAPTOP                85945       $149.80       OFFICE                                                                                                                                           
+        CELLPHONE             95667       $149.80       MOBILE                                                                                                                                           
+        TOWEL                 34678       $ 11.98       BATH                                                                                                                                             
+        PILLOW                38795       $  9.73       HOME                                                                                                                                             
+        LAMP                  93755       $ 21.72       HOME                                                                                                                                             
+        NECKLACE              59820       $ 41.19       JEWELRY                                                                                                                                          
+        WATCH                 29529       $ 86.13       JEWELRY                                                                                                                                          
+        BIKE                  01203       $157.29       TOYS                                                                                                                                             
+        SCOOTER               02387       $ 56.17       TOYS                                                                                                                                             
+        IPHONE CHARGER        12159       $ 13.48       ELECTRONICS                                                                                                                                      
+        COKE-COLA             03156       $  2.99       GROCERY                                                                                                                                          
+        IPOD                  11987       $111.60       ELECTRONICS                                                                                                                                      
+        TYLENOL               02562       $  6.70       PHARMACY                                                                                                                                         
+        FOOTBALL              25841       $ 11.23       SPORTS                                                                                                                                           
+        CALCULATOR            13645       $ 86.04       OFFICE                                                                                                                                           
+        TOWELRACK             05396       $108.75       BATH                                                                                                                                             
+        FOOTBALL              55593       $143.20       SPORTS                                                                                                                                           
+        LIMELOTION            94112       $ 66.51       BATH                                                                                                                                             
+        WHITERUG              39895       $419.36       HOME                                                                                                                                             
+        COFFEEMUG             44300       $221.40       HOME                                                                                                                                             
